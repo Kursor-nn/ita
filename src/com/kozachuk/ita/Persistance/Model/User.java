@@ -75,7 +75,7 @@ public class User implements Serializable{
     public String toString() {
         return new ToStringBuilder(this)
                 .append("id", getId())
-                .append("name", getComment())
+                .append("comment", getComment())
                 .append("msisdn", getMsisdn())
                 .toString();
     }

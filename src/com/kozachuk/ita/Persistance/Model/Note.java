@@ -4,29 +4,14 @@ package com.kozachuk.ita.Persistance.Model;
  * Created by alexanderkozachuk on 11.03.16.
  */
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
+import javax.persistence.*;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.CascadeType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "content")
@@ -50,12 +35,25 @@ public class Note  implements Serializable {
     }
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "notes")
+    @Cascade({CascadeType.MERGE, CascadeType.SAVE_UPDATE})
     public Set<User> getUsers() {
         return this.users;
     }
-
     public void setUsers(Set<User> users) {
         this.users = users;
+    }
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @Cascade({CascadeType.MERGE, CascadeType.SAVE_UPDATE})
+    public Set<Category> getCategories() {
+        return this.categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
+    }
+    public void setCategory(Category category) {
+        this.categories.add(category);
     }
 
     @Override
@@ -78,4 +76,5 @@ public class Note  implements Serializable {
     private Integer id;
     private String name;
     Set<User> users = new HashSet<User>();
+    Set<Category> categories = new HashSet<Category>();
 }

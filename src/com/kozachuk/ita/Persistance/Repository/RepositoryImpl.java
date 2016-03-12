@@ -25,10 +25,11 @@ public class RepositoryImpl<T> implements IRepositry<T>{
     @Override
     public Integer save(T entity) {
         session.beginTransaction();
-        Integer userId = (Integer)session.save(entity);
+        Integer id = (Integer)session.save(entity);
+        session.flush();
         session.getTransaction().commit();
 
-        return userId;
+        return id;
     }
 
     @Override

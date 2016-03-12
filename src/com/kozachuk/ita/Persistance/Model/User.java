@@ -18,7 +18,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.CascadeType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -27,6 +26,8 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name = "users")
@@ -58,15 +59,18 @@ public class User implements Serializable{
     }
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "content_to_user", joinColumns = {
-                                   @JoinColumn(name = "user_id",    nullable = true, updatable = false) },
-            inverseJoinColumns = { @JoinColumn(name = "content_id", nullable = true, updatable = false) })
+    @Cascade({CascadeType.MERGE, CascadeType.SAVE_UPDATE})
+    @JoinTable(joinColumns          = {@JoinColumn(name = "user_id",    nullable = true, updatable = false) },
+               inverseJoinColumns   = {@JoinColumn(name = "content_id", nullable = true, updatable = false) })
     public Set<Note> getNotes() {
         return this.notes;
     }
 
     public void setNotes(Set<Note> notes) {
         this.notes = notes;
+    }
+    public void setNote(Note note) {
+        this.notes.add(note);
     }
 
 

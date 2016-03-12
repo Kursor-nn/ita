@@ -17,5 +17,6 @@
 
         <mapping class="com.kozachuk.ita.Persistance.Model.User" />
         <mapping class="com.kozachuk.ita.Persistance.Model.Note" />
+        <mapping class="com.kozachuk.ita.Persistance.Model.Category" />
     </session-factory>
 </hibernate-configuration>

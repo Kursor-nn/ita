@@ -15,6 +15,7 @@
         <property name="current_session_context_class">thread</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
 
-        <mapping class="com.kozachuk.ita.Model.User" />
+        <mapping class="com.kozachuk.ita.Persistance.Model.User" />
+        <mapping class="com.kozachuk.ita.Persistance.Model.Note" />
     </session-factory>
 </hibernate-configuration>

@@ -1,4 +1,4 @@
-package com.kozachuk.ita;
+package com.kozachuk.ita.Persistance;
 
 /**
  * Created by alexanderkozachuk on 11.03.16.

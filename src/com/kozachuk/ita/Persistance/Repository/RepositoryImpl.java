@@ -32,15 +32,14 @@ public class RepositoryImpl<T> implements IRepositry<T>{
     }
 
     @Override
-    public T find(T entity, Integer id) {
-        Class entityClass = entity.getClass();
-        return (T)session.get(entityClass, id);
+    public T find(Class persistanceClass, Integer id) {
+        return (T)session.get(persistanceClass, id);
     }
 
     @Override
-    public void update(T entiry) {
+    public void update(T entity) {
         session.beginTransaction();
-        session.update(entiry);
+        session.update(entity);
         session.getTransaction().commit();
     }
 
@@ -55,5 +54,4 @@ public class RepositoryImpl<T> implements IRepositry<T>{
         }
         return false;
     }
-
 }

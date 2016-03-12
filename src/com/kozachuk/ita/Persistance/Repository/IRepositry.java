@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 public interface IRepositry<T> {
     Integer save(T entity);
-    public T find(T entity, Integer id);
-    void update(T entiry);
+    public T find(Class persistanceClass, Integer id);
+    void update(T entity);
     boolean delete(Class entityClass, Integer id);
 }

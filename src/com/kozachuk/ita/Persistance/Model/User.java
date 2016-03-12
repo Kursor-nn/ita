@@ -57,10 +57,10 @@ public class User implements Serializable{
         this.msisdn = msisdn;
     }
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "content_to_user", joinColumns = {
-                                   @JoinColumn(name = "user_id",    nullable = false, updatable = false) },
-            inverseJoinColumns = { @JoinColumn(name = "content_id", nullable = false, updatable = false) })
+                                   @JoinColumn(name = "user_id",    nullable = true, updatable = false) },
+            inverseJoinColumns = { @JoinColumn(name = "content_id", nullable = true, updatable = false) })
     public Set<Note> getNotes() {
         return this.notes;
     }
@@ -96,5 +96,5 @@ public class User implements Serializable{
     private Integer id;
     private String comment;
     private Long msisdn;
-    private Set<Note> notes = new HashSet<Note>(0);
+    private Set<Note> notes = new HashSet<Note>();
 }

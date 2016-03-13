@@ -1,19 +1,17 @@
 package com.kozachuk.ita.Application;
 
 import com.kozachuk.ita.Configuration.Configuration;
+import com.kozachuk.ita.ItaApp.ItaClient;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.Socket;
+import java.net.ServerSocket;
 
 /**
- * Created by alexanderkozachuk on 12.03.16.
+ * Created by alexanderkozachuk on 13.03.16.
  */
-public class Client implements IApplication {
-    Socket clientSocket;
-    boolean applicationStop = false;
+public class Client extends Application {
+    ServerSocket serverSocket = null;
+    boolean listeningSocket = true;
     Configuration config;
 
     public Client(Configuration configuration){
@@ -22,21 +20,44 @@ public class Client implements IApplication {
 
     @Override
     public void handle() throws IOException {
-        this.clientSocket = new Socket(config.getHost(), config.getPort());
+        System.out.println("Client start");
+
+        ItaClient client = new ItaClient(config);
+        client.start();
+
+        /*boolean isRunning = true;
         String sentence;
         String modifiedSentence;
-        while(applicationStop){
+        Socket clientSocket = new Socket(config.getHost(), config.getPort());
+
+        while(isRunning){
             BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
 
             DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream());
             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            out.writeBytes("FUCK 1" + '\n');
 
-            System.out.println("Ready");
-            sentence = in.readLine();
-            out.writeBytes(sentence + '\n');
-            modifiedSentence = in.readLine();
-            System.out.println(modifiedSentence);
+            //sentence = in.readLine();
+            //out.writeBytes(sentence + '\n');
+            //modifiedSentence = in.readLine();
+            //System.out.println(modifiedSentence);
         }
-        clientSocket.close();
+        clientSocket.close();*/
+
+
+        /*try {
+            serverSocket = new ServerSocket(config.getPort());
+
+            while(listeningSocket){
+                Socket clientSocket = serverSocket.accept();
+                ItaClient client = new ItaClient(clientSocket);
+                client.start();
+            }
+
+            serverSocket.close();
+
+        } catch (IOException e) {
+            System.err.println("Could not listen on port: " + config.getPort());
+        }*/
     }
 }

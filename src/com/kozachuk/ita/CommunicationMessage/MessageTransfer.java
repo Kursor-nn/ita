@@ -4,6 +4,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.StringReader;
 
@@ -19,7 +20,7 @@ public class MessageTransfer {
         this.contextClass = classContext;
     }
 
-    public void createXml(){
+    public void init(){
         try {
             jaxbContext = JAXBContext.newInstance(contextClass);
             jaxbMarshaller = jaxbContext.createMarshaller();
@@ -33,4 +34,10 @@ public class MessageTransfer {
         jaxbMarshaller.marshal(message, stream);
     }
 
+    public Message makeObject(String xml) throws JAXBException {
+        System.out.println(xml);
+        Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+        Message message = (Message) jaxbUnmarshaller.unmarshal(new StringReader(xml));
+        return message;
+    }
 }

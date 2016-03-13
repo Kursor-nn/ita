@@ -5,6 +5,8 @@ package com.kozachuk.ita.CommunicationMessage;
  */
 
 import com.kozachuk.ita.States.StateType;
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -25,5 +27,12 @@ public class Request implements Message{
     @XmlElement
     public void setStateType(StateType stateType) {
         this.stateType = stateType;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("state type", getStateType())
+                .toString();
     }
 }

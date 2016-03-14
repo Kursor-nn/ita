@@ -13,6 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Request implements Message{
     private StateType stateType;
+    private String userInput;
     public Request(){}
 
     public Request(StateType stateType){
@@ -28,6 +29,15 @@ public class Request implements Message{
         this.stateType = stateType;
     }
 
+    @XmlElement
+    public void setUserInput(String userInput) {
+        this.userInput = userInput;
+    }
+
+    public String getUserInput() {
+        return userInput;
+    }
+
     public void print(){
         System.out.println("State : " + getStateType());
     }
@@ -36,6 +46,7 @@ public class Request implements Message{
     public String toString() {
         return new ToStringBuilder(this)
                 .append("state type", getStateType())
+                .append("user input", getUserInput())
                 .toString();
     }
 }

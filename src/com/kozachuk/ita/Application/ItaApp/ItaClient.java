@@ -75,6 +75,7 @@ public class ItaClient extends Thread{
                         String i = scaner.next();
                         if (i.equals("q")) isRunning = false;
                         request.setStateType(StateType.get(i));
+                        request.setUserInput(new String(i));
 
                         try {
                             mtransfer.sendXml(request, outStream);

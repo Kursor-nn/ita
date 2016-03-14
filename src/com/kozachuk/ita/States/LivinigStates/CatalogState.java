@@ -6,6 +6,7 @@ import com.kozachuk.ita.States.ApplicationState;
 import com.kozachuk.ita.States.MainState;
 import com.kozachuk.ita.States.StateType;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 
 import java.util.List;
 
@@ -27,12 +28,13 @@ public class CatalogState extends ApplicationState {
     @Override
     public Respond handle() {
         Respond respond = new Respond(message);
-        List<Category> categoryList = session.createCriteria(Category.class).addOrder(Order.asc("name")).list();
 
+        List<Category> categoryList = session.createCriteria(Category.class)
+                                        .addOrder(Order.asc("publicId")).list();
         StringBuilder stringBuilder = new StringBuilder();
 
         for (int i=0; i < categoryList.size(); i++)
-            stringBuilder.append(i + " - " + categoryList.get(i).getName() + "; ");
+            stringBuilder.append(categoryList.get(i).getPublicId() + " - " + categoryList.get(i).getName() + "; ");
 
         respond.setContent(stringBuilder.toString());
 
@@ -42,7 +44,7 @@ public class CatalogState extends ApplicationState {
     @Override
     public ApplicationState next(StateType state) throws IllegalStateException{
         ApplicationState newApplicationState = null;
-        System.out.println("You have chosen : " + state);
+
         switch(state){
             case ONE:
             case TWO:

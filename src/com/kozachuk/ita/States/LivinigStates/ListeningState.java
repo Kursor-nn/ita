@@ -7,6 +7,8 @@ import com.kozachuk.ita.Persistance.Repository.UserRepository;
 import com.kozachuk.ita.States.MainState;
 import com.kozachuk.ita.States.ApplicationState;
 import com.kozachuk.ita.States.StateType;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
 
@@ -44,10 +46,18 @@ public class ListeningState extends ApplicationState {
         if(notes == null){
             respond.setContent("Please, press '1' for starting");
 
-            notes = session.createCriteria(Note.class)
-                    .createCriteria("users", JoinType.LEFT_OUTER_JOIN)
-                    .add(Restrictions.isNull("id"))
-                    .list().iterator();
+            Criteria root = session.createCriteria(Note.class)
+                    .add(Restrictions.isEmpty("users"));
+                root.createCriteria("categories", "category")
+                    .add(Restrictions.eq("category.publicId", getUserSession().getUserInput()));
+                root.createCriteria("users", "user", JoinType.LEFT_OUTER_JOIN)
+                    .add(Restrictions.or(
+                            Restrictions.ne("user.id", getUserSession().getUser().getId()),
+                            Restrictions.isNull("user.id")));
+
+
+            notes = root.list().iterator();
+
 
         } else {
             respond.setContent("You have added all content.");

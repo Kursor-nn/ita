@@ -48,8 +48,8 @@ public class ManagingCabinetState extends ApplicationState{
         Respond respond = new Respond();
         respond.setMessage(message);
 
-        UserRepository repoUser = new UserRepository(session);
-        user = (User)repoUser.find(User.class, 1);
+        User user = getUserSession().getUser();
+
         Set<Note> temp = user.getNotes();
         respond.setContent("Please, press '1' for starting");
 
@@ -87,6 +87,7 @@ public class ManagingCabinetState extends ApplicationState{
                             if(note != null){
                                 DeletingMediaState newState = new DeletingMediaState(user, getCurrentNote());
                                 newState.setSession(session);
+                                newState.setUserSession(getUserSession());
                                 this.setNextState(newState);
                             }
                             applicationState = this; break;

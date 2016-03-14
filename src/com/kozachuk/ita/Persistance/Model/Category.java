@@ -46,12 +46,27 @@ public class Category implements Serializable {
         this.name = name;
     }
 
+    @Column(name = "publicId", unique = true, nullable = false, length = 50)
+    public void setPublicId(String publicId) {
+        this.publicId = publicId;
+    }
+
+    public String getPublicId() {
+        return publicId;
+    }
+
     public Category(){}
     public Category(String name){
         this.name = name;
     }
+    public Category(String name, String publicId){
+        this.name = name;
+        this.publicId = publicId;
+    }
+
 
     private Integer id;
     private String name;
+    private String publicId;
 
 }

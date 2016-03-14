@@ -39,7 +39,8 @@ SET default_with_oids = false;
 
 CREATE TABLE categories (
     id integer NOT NULL,
-    name character varying(50)
+    name character varying(50),
+    publicid character varying(255)
 );
 
 
@@ -68,20 +69,6 @@ CREATE TABLE content_categories (
 
 
 ALTER TABLE content_categories OWNER TO postgres;
-
---
--- Name: hibernate_sequence; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE hibernate_sequence
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE hibernate_sequence OWNER TO postgres;
 
 --
 -- Name: hibernate_sequences; Type: TABLE; Schema: public; Owner: postgres
@@ -124,10 +111,10 @@ ALTER TABLE users_content OWNER TO postgres;
 -- Data for Name: categories; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY categories (id, name) FROM stdin;
-3	category 1
-5	category 3
-7	category 2
+COPY categories (id, name, publicid) FROM stdin;
+2	Popular	1
+4	Novelty	2
+6	Hits	3
 \.
 
 
@@ -136,18 +123,18 @@ COPY categories (id, name) FROM stdin;
 --
 
 COPY content (id, name) FROM stdin;
-2	note 1
-4	note 10
-6	note 7
-8	note 4
-10	note 2
-11	note 8
-12	note 11
-13	note 5
-15	note 3
-16	note 9
-17	note 12
-18	note 6
+1	content 1
+3	content 2
+5	content 3
+7	content 4
+8	content 5
+9	content 6
+10	content 7
+11	content 8
+12	content 9
+13	content 10
+14	content 11
+15	content 12
 \.
 
 
@@ -156,26 +143,19 @@ COPY content (id, name) FROM stdin;
 --
 
 COPY content_categories (note_id, categories_id) FROM stdin;
-2	3
-4	5
-6	7
-8	5
-10	7
-11	5
-12	7
-13	7
-15	5
-16	3
-17	3
-18	3
+1	2
+3	4
+5	6
+7	2
+8	4
+9	6
+10	2
+11	4
+12	6
+13	2
+14	4
+15	6
 \.
-
-
---
--- Name: hibernate_sequence; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('hibernate_sequence', 12, true);
 
 
 --
@@ -183,7 +163,7 @@ SELECT pg_catalog.setval('hibernate_sequence', 12, true);
 --
 
 COPY hibernate_sequences (sequence_name, next_val) FROM stdin;
-default	19
+default	21
 \.
 
 
@@ -192,9 +172,11 @@ default	19
 --
 
 COPY users (id, comment, msisdn) FROM stdin;
-1	user 1	88888889
-9	user 2	88888810
-14	user 3	88888811
+16	user 1	1
+17	user 2	2
+18	user 3	3
+19	user 4	4
+20	user 5	5
 \.
 
 
@@ -203,18 +185,6 @@ COPY users (id, comment, msisdn) FROM stdin;
 --
 
 COPY users_content (user_id, content_id) FROM stdin;
-1	2
-1	4
-1	6
-1	8
-9	10
-9	11
-9	12
-9	13
-14	15
-14	16
-14	17
-14	18
 \.
 
 

@@ -48,6 +48,9 @@ public class ItaServer extends Thread{
                     requestFromClient = getRequest(in);
                     if(requestFromClient.getStateType() != null){
 
+                        userSession.setStateType(requestFromClient.getStateType());
+                        userSession.setUserInput(requestFromClient.getUserInput());
+
                         applicationState = applicationState.next(requestFromClient.getStateType());
                         applicationState.setSession(session);
                         applicationState.setUserSession(userSession);
@@ -96,7 +99,7 @@ public class ItaServer extends Thread{
             session = HibernatePersistance.getSessionFactory().openSession();
 
             repoUser = new UserRepository(session);
-            user = (User)repoUser.find(User.class, 1);
+            user = (User)repoUser.find(User.class, 16);
             userSession = new UserSession(user);
 
             applicationState = new MainState();

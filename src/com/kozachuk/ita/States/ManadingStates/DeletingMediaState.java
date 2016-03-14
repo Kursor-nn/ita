@@ -36,7 +36,9 @@ public class DeletingMediaState extends ApplicationState {
         Respond respond = new Respond();
 
         UserRepository repoUser = new UserRepository(session);
-        repoUser.detach(getUserSession().getUser(), note);
+        repoUser.detach(
+                getUserSession().getUser(),
+                note);
 
         respond.setMessage("Content  '" + note.getName() + "' was deleted! ");
 

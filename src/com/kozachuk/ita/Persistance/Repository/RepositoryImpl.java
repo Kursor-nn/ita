@@ -2,8 +2,6 @@ package com.kozachuk.ita.Persistance.Repository;
 
 import org.hibernate.Session;
 
-import java.io.Serializable;
-
 /**
  * Created by alexanderkozachuk on 12.03.16.
  */

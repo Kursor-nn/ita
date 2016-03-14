@@ -1,6 +1,5 @@
 package com.kozachuk.ita.States.ManadingStates;
 
-import com.kozachuk.ita.Application.Application;
 import com.kozachuk.ita.CommunicationMessage.Respond;
 import com.kozachuk.ita.Persistance.Model.Note;
 import com.kozachuk.ita.Persistance.Model.User;
@@ -35,10 +34,11 @@ public class DeletingMediaState extends ApplicationState {
     @Override
     public Respond handle() {
         Respond respond = new Respond();
-        UserRepository repoUser = new UserRepository(session);
-        repoUser.detach(user, note);
 
-        respond.setMessage("Content  '" + note.getName() + "' was deleted!");
+        UserRepository repoUser = new UserRepository(session);
+        repoUser.detach(getUserSession().getUser(), note);
+
+        respond.setMessage("Content  '" + note.getName() + "' was deleted! ");
 
         return respond;
     }

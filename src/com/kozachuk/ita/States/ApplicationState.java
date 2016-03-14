@@ -1,11 +1,7 @@
 package com.kozachuk.ita.States;
 
-import com.kozachuk.ita.Application.Application;
-import com.kozachuk.ita.Commands.Command;
 import com.kozachuk.ita.CommunicationMessage.Respond;
-import com.kozachuk.ita.Persistance.HibernatePersistance;
-import com.kozachuk.ita.Persistance.Model.Note;
-import com.kozachuk.ita.Persistance.Repository.UserRepository;
+import com.kozachuk.ita.Configuration.UserSession;
 import org.hibernate.Session;
 
 import java.util.List;
@@ -16,9 +12,9 @@ import java.util.List;
 public abstract class ApplicationState {
     protected String message = "";
     protected String content = "";
-    protected Command command = null;
     protected ApplicationState nextState = null;
     protected Session session = null;
+    private UserSession userSession = null;
 
     public abstract Respond handle();
     public abstract ApplicationState next(StateType state);
@@ -47,14 +43,6 @@ public abstract class ApplicationState {
         return content;
     }
 
-    public void setCommand(Command command) {
-        this.command = command;
-    }
-
-    public Command getCommand() {
-        return command;
-    }
-
     public ApplicationState getNextState() {
         return nextState;
     }
@@ -71,7 +59,11 @@ public abstract class ApplicationState {
         return session;
     }
 
-    public List runCommand(){
-        return command.run();
+    public UserSession getUserSession() {
+        return userSession;
+    }
+
+    public void setUserSession(UserSession userSession) {
+        this.userSession = userSession;
     }
 }

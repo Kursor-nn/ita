@@ -7,7 +7,6 @@ package com.kozachuk.ita.CommunicationMessage;
 import com.kozachuk.ita.States.StateType;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 

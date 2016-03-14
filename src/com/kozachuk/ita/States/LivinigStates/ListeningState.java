@@ -1,29 +1,21 @@
 package com.kozachuk.ita.States.LivinigStates;
 
-import com.kozachuk.ita.Application.Application;
-import com.kozachuk.ita.Commands.Command;
 import com.kozachuk.ita.CommunicationMessage.Respond;
-import com.kozachuk.ita.Persistance.Model.Category;
 import com.kozachuk.ita.Persistance.Model.Note;
 import com.kozachuk.ita.Persistance.Model.User;
 import com.kozachuk.ita.Persistance.Repository.UserRepository;
 import com.kozachuk.ita.States.MainState;
 import com.kozachuk.ita.States.ApplicationState;
 import com.kozachuk.ita.States.StateType;
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
 
 import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
 
 /**
  * Created by alexanderkozachuk on 13.03.16.
  */
 public class ListeningState extends ApplicationState {
-    private Command command = null;
     Note currentNote = null;
     private int contentIndex = 0;
     Iterator<Note> notes = null;
@@ -83,7 +75,7 @@ public class ListeningState extends ApplicationState {
             case TWO:
                 Note note = getCurrentNote();
                 if(note != null){
-                    AddingContentState newState = new AddingContentState(user, getCurrentNote());
+                    AddingContentState newState = new AddingContentState(getUserSession().getUser(), getCurrentNote());
                     newState.setSession(session);
                     this.setNextState(newState);
                 }

@@ -1,6 +1,9 @@
 package com.kozachuk.ita.Application.ItaApp;
 
+import com.kozachuk.ita.Configuration.UserSession;
 import com.kozachuk.ita.Persistance.HibernatePersistance;
+import com.kozachuk.ita.Persistance.Model.User;
+import com.kozachuk.ita.Persistance.Repository.UserRepository;
 import com.kozachuk.ita.States.ApplicationState;
 import com.kozachuk.ita.States.MainState;
 import org.hibernate.Session;
@@ -20,9 +23,16 @@ import java.net.Socket;
 public class ItaServer extends Thread{
     private Socket socket = null;
     private boolean runServer = true;
-    MessageTransfer messageTransfer;
-    MessageTransfer messageTransferRespond;
-    Session session = null;
+    private MessageTransfer messageTransfer;
+    private MessageTransfer messageTransferRespond;
+    private Session session = null;
+    private UserSession userSession;
+    private BufferedReader in = null;
+    private DataOutputStream out = null;
+    private Request requestFromClient = null;
+    private ApplicationState applicationState = new MainState();
+    private UserRepository repoUser ;
+    private User user;
 
     public ItaServer(Socket socket) {
         super("ItaServer");
@@ -30,43 +40,25 @@ public class ItaServer extends Thread{
     }
 
     public void run(){
-        BufferedReader in = null;
-        DataOutputStream out = null;
-        Request requestFromClient = null;
-        ApplicationState applicationState = new MainState();
-        try{
-            in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
-            out = new DataOutputStream(this.socket.getOutputStream());
-            messageTransfer = new MessageTransfer(Request.class);
-            messageTransfer.init();
-
-            messageTransferRespond = new MessageTransfer(Respond.class);
-            messageTransferRespond.init();
-            messageTransferRespond.sendXml(applicationState.handle(), out);
-            session = HibernatePersistance.getSessionFactory().openSession();
-
-            applicationState = new MainState();
-        } catch (IOException e){
-            System.out.println(e);
-            runServer = false;
-        } catch (JAXBException e) {
-            e.printStackTrace();
-        }
+        init();
 
         while(runServer) {
             try{
                 if(in.ready()){
                     requestFromClient = getRequest(in);
                     if(requestFromClient.getStateType() != null){
+
                         applicationState = applicationState.next(requestFromClient.getStateType());
                         applicationState.setSession(session);
+                        applicationState.setUserSession(userSession);
+
                         messageTransferRespond.sendXml(applicationState.handle(), out);
                     } else {
                         messageTransferRespond.sendXml(new Respond("You have chosen a wrong section. Please, try again."), out);
                     }
                 }
             }catch (IOException e){
-                System.out.println(e);
+                e.printStackTrace();
                 runServer = false;
             } catch (JAXBException e) {
                 e.printStackTrace();
@@ -89,5 +81,30 @@ public class ItaServer extends Thread{
         }
 
         return request;
+    }
+
+    private void init(){
+        try{
+            in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
+            out = new DataOutputStream(this.socket.getOutputStream());
+            messageTransfer = new MessageTransfer(Request.class);
+            messageTransfer.init();
+
+            messageTransferRespond = new MessageTransfer(Respond.class);
+            messageTransferRespond.init();
+            messageTransferRespond.sendXml(applicationState.handle(), out);
+            session = HibernatePersistance.getSessionFactory().openSession();
+
+            repoUser = new UserRepository(session);
+            user = (User)repoUser.find(User.class, 1);
+            userSession = new UserSession(user);
+
+            applicationState = new MainState();
+        } catch (IOException e){
+            System.out.println(e);
+            runServer = false;
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
     }
 }

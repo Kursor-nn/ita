@@ -1,4 +1,4 @@
-package com.kozachuk.ita.ItaApp;
+package com.kozachuk.ita.Application.ItaApp;
 
 import com.kozachuk.ita.CommunicationMessage.MessageTransfer;
 import com.kozachuk.ita.CommunicationMessage.Request;
@@ -39,8 +39,6 @@ public class ItaClient extends Thread{
 
         String text = builder.toString();
         if(text.length() != 0){
-            System.out.println("text : " + text.toString());
-
             respond = (Respond)messageTransfer.makeObject(text);
         }
 
@@ -70,25 +68,22 @@ public class ItaClient extends Thread{
             while (isRunning) {
                 if(inStream.ready()){
                     Respond respond = (Respond)getRespond(messageTransferRespond, inStream);
-                    System.out.println(respond.getMessage());
-                }
+                    respond.print();
 
-                System.out.print("Enter code: ");
-                if(scaner.hasNext()){
-                    String i = scaner.next();
-                    if (i.equals("q")) isRunning = false;
-                    request.setStateType(StateType.get(i));
+                    System.out.print("Enter code: ");
+                    if(scaner.hasNext()){
+                        String i = scaner.next();
+                        if (i.equals("q")) isRunning = false;
+                        request.setStateType(StateType.get(i));
 
-                    try {
-                        mtransfer.sendXml(request, outStream);
-                    } catch (JAXBException e) {
-                        e.printStackTrace();
+                        try {
+                            mtransfer.sendXml(request, outStream);
+                        } catch (JAXBException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
-
             }
-
-
 
         } catch (IOException e) {
             e.printStackTrace();

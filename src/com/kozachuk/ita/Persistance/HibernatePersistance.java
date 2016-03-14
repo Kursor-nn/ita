@@ -7,7 +7,7 @@ package com.kozachuk.ita.Persistance;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-public class HibernatePersistence {
+public class HibernatePersistance {
 
     private static final SessionFactory sessionFactory = buildSessionFactory();
 

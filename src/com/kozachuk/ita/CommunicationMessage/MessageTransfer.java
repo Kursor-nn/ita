@@ -35,7 +35,6 @@ public class MessageTransfer {
     }
 
     public Message makeObject(String xml) throws JAXBException {
-        System.out.println(xml);
         Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
         Message message = (Message) jaxbUnmarshaller.unmarshal(new StringReader(xml));
         return message;

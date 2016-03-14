@@ -1,7 +1,7 @@
 package com.kozachuk.ita.Application;
 
 import com.kozachuk.ita.Configuration.Configuration;
-import com.kozachuk.ita.ItaApp.ItaServer;
+import com.kozachuk.ita.Application.ItaApp.ItaServer;
 
 import java.io.IOException;
 import java.net.ServerSocket;

@@ -35,6 +35,14 @@ public class Respond implements Message{
         this.content = content;
     }
 
+    public void print(){
+        String tcontent = getContent();
+        System.out.println("Message : " + getMessage());
+        if(tcontent != null){
+            System.out.println("Content : " + tcontent);
+        }
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this)

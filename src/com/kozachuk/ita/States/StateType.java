@@ -17,8 +17,8 @@ public enum StateType {
     @XmlEnumValue("1") ONE("1"),
     @XmlEnumValue("2") TWO("2"),
     @XmlEnumValue("3") THREE("3"),
-    @XmlEnumValue("4") ASTERISK("4"),
-    @XmlEnumValue("5") LATTICE("5");
+    @XmlEnumValue("4") ASTERISK("*"),
+    @XmlEnumValue("5") LATTICE("#");
 
     private static final Map<String,StateType> lookup = new HashMap<String,StateType>();
 

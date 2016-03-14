@@ -29,6 +29,10 @@ public class Request implements Message{
         this.stateType = stateType;
     }
 
+    public void print(){
+        System.out.println("State : " + getStateType());
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this)

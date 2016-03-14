@@ -81,6 +81,7 @@ public class ItaClient extends Thread{
                         } catch (JAXBException e) {
                             e.printStackTrace();
                         }
+                        System.out.println("===============================================================>");
                     }
                 }
             }

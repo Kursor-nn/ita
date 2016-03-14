@@ -12,8 +12,7 @@ import org.hibernate.Session;
  * Created by alexanderkozachuk on 13.03.16.
  */
 public class AddingContentState extends ApplicationState {
-    private String stateMessage = "You have added content.\nYou will be redirect to listening section\n\n";
-    ApplicationState applicationState;
+    private String stateMessage = "You have added content!\n You will be redirect to listening section!";
     Note note = null;
     User user = null;
 
@@ -24,7 +23,6 @@ public class AddingContentState extends ApplicationState {
         this();
         addMessage(applicationState.getMessage());
     }
-
     public AddingContentState(User user, Note note){
         this();
         this.note = note;

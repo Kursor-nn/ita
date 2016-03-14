@@ -1,13 +1,12 @@
 package com.kozachuk.ita.Application.ItaApp;
 
-import com.kozachuk.ita.CommunicationMessage.MessageTransfer;
-import com.kozachuk.ita.CommunicationMessage.Request;
-import com.kozachuk.ita.CommunicationMessage.Respond;
 import com.kozachuk.ita.Persistance.HibernatePersistance;
 import com.kozachuk.ita.States.ApplicationState;
 import com.kozachuk.ita.States.MainState;
 import org.hibernate.Session;
-
+import com.kozachuk.ita.CommunicationMessage.MessageTransfer;
+import com.kozachuk.ita.CommunicationMessage.Request;
+import com.kozachuk.ita.CommunicationMessage.Respond;
 import javax.xml.bind.JAXBException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -23,7 +22,6 @@ public class ItaServer extends Thread{
     private boolean runServer = true;
     MessageTransfer messageTransfer;
     MessageTransfer messageTransferRespond;
-    ApplicationState applicationState;
     Session session = null;
 
     public ItaServer(Socket socket) {

@@ -51,26 +51,28 @@ public class ManagingCabinetState extends ApplicationState{
         UserRepository repoUser = new UserRepository(session);
         user = (User)repoUser.find(User.class, 1);
         Set<Note> temp = user.getNotes();
+        respond.setContent("Please, press '1' for starting");
 
         if(notes.isEmpty() && !(user.getNotes().isEmpty())){
-            respond.setContent("Please, press '1' for starting");
             notes.addAll(user.getNotes());
             notesIterator = notes.iterator();
         } else {
-            respond.setContent("You have not content in your library.");
+            currentNote = null;
+
             if(!user.getNotes().isEmpty() && notesIterator.hasNext()) {
                 currentNote = notesIterator.next();
-                respond.setContent("You are listening the following content : " + getCurrentNote().getName());
-            } else {
-                currentNote = null;
             }
+
+            respond.setContent(getContentForRespond());
         }
 
         if(nextState != null){
             respond = nextState.handle();
             respond.setMessage(respond.getMessage() + message);
             nextState = null;
+            respond.setContent(getContentForRespond());
         }
+
         return respond;
     }
 
@@ -97,5 +99,12 @@ public class ManagingCabinetState extends ApplicationState{
 
     private Note getCurrentNote(){
         return currentNote;
+    }
+
+    private String getContentForRespond(){
+        if(getCurrentNote() != null) {
+            return "You are listening the following content : " + getCurrentNote().getName();
+        }
+        return "You have seen all content in your library.";
     }
 }

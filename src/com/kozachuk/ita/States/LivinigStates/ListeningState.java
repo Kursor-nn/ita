@@ -15,15 +15,18 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by alexanderkozachuk on 13.03.16.
  */
 public class ListeningState extends ApplicationState {
     private Command command = null;
+    Note currentNote = null;
     private int contentIndex = 0;
-    List<Note> notes = null;
+    Iterator<Note> notes = null;
     User user = null;
     private String stateMessage = "\nPlease, choose action:\n 1 - next content;\n 2 - add content," +
             "\n '*' - to main menu, '#' - to previous menu. Press '1' for listening";
@@ -51,15 +54,14 @@ public class ListeningState extends ApplicationState {
 
             notes = session.createCriteria(Note.class)
                     .createCriteria("users", JoinType.LEFT_OUTER_JOIN)
-                    .add( Restrictions.isNull("id"))
-                    .list();
-            contentIndex = 0;
+                    .add(Restrictions.isNull("id"))
+                    .list().iterator();
 
         } else {
             respond.setContent("You have added all content.");
-            if(notes.size() > contentIndex) {
+            if(notes.hasNext()) {
+                currentNote = notes.next();
                 respond.setContent("You are listening the following content : " + getCurrentNote().getName());
-                contentIndex++;
             }
         }
 
@@ -97,8 +99,6 @@ public class ListeningState extends ApplicationState {
     }
 
     private Note getCurrentNote(){
-        if(contentIndex < notes.size())
-            return notes.get(contentIndex);
-        return null;
+        return currentNote;
     };
 }

@@ -1,5 +1,8 @@
 .idea/
 server.iml
 target/
+.DS_Store
+helpers/.DS_Store
+ita-server.iml
 
 

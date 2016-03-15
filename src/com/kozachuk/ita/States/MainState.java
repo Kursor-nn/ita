@@ -29,6 +29,9 @@ public class MainState extends ApplicationState {
     @Override
     public ApplicationState next(StateType stateType) {
         ApplicationState applicationState = null;
+
+        if(stateType == null) return this;
+
         switch(stateType){
             case ONE:   applicationState = new CatalogState(); break;
             case TWO:   applicationState = new ManagingCabinetState(); break;

@@ -79,7 +79,6 @@ public class ListeningState extends ApplicationState {
     @Override
     public ApplicationState next(StateType state) {
         ApplicationState newApplicationState = null;
-        System.out.println("You have chosen : " + state);
 
         switch(state){
             case TWO:

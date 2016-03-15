@@ -43,6 +43,61 @@ public class Configuration {
         return typeApp;
     }
 
+    public String getDatabaseUsername() {
+        return databaseUsername;
+    }
+
+    public void setDatabaseUsername(String databaseUsername) {
+        this.databaseUsername = databaseUsername;
+    }
+
+    public void setDatabasePassword(String databasePassword) {
+        this.databasePassword = databasePassword;
+    }
+
+    public String getDatabasePassword() {
+        return databasePassword;
+    }
+
+    public String getDatabaseHost() {
+        return databaseHost;
+    }
+
+    public String getDatabasePort() {
+        return databasePort;
+    }
+
+    public void setDatabaseHost(String databaseHost) {
+        this.databaseHost = databaseHost;
+    }
+
+    public void setDatabasePort(String databasePort) {
+        this.databasePort = databasePort;
+    }
+
+    public String getDatabaseName() {
+        return databaseName;
+    }
+
+    public void setDatabaseName(String databaseName) {
+        this.databaseName = databaseName;
+    }
+
+    @Option(name="-N", usage="database name. default value : ita")
+    private String databaseName = "ita";
+
+    @Option(name="-H", usage="database host-name. default value : localhost")
+    private String databaseHost = "jdbc:postgresql://localhost";
+
+    @Option(name="--port", usage="database host-name. default value : 5442")
+    private String databasePort = "5442";
+
+    @Option(name="-U", usage="database host-user. default value : postgres")
+    private String databaseUsername = "postgres";
+
+    @Option(name="-P", usage="database password. default value : 123123")
+    private String databasePassword = "123123";
+
     @Option(name="-h", usage="host-name. default value : localhost")
     private String host = "localhost";
 

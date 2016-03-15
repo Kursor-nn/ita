@@ -1,5 +1,6 @@
 package com.kozachuk.ita.Application.ItaApp;
 
+import com.kozachuk.ita.Configuration.Configuration;
 import com.kozachuk.ita.Configuration.UserSession;
 import com.kozachuk.ita.Persistance.HibernatePersistance;
 import com.kozachuk.ita.Persistance.Model.User;
@@ -34,11 +35,13 @@ public class ItaServer extends Thread{
     private ApplicationState applicationState = new MainState();
     private UserRepository repoUser ;
     private User user;
+    private Configuration configuration;
 
 
-    public ItaServer(Socket socket) {
+    public ItaServer(Socket socket, Configuration configuration) {
         super("ItaServer");
         this.socket = socket;
+        this.configuration = configuration;
     }
 
     public void run(){
@@ -124,7 +127,7 @@ public class ItaServer extends Thread{
 
             messageTransferRespond = new MessageTransfer(Respond.class);
             messageTransferRespond.init();
-            session = HibernatePersistance.getSessionFactory().openSession();
+            session = HibernatePersistance.getSessionFactory(configuration).openSession();
 
             repoUser = new UserRepository(session);
 

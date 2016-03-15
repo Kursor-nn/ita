@@ -29,7 +29,6 @@ public class MainState extends ApplicationState {
     @Override
     public ApplicationState next(StateType stateType) {
         ApplicationState applicationState = null;
-        System.out.println("You have chosen : " + applicationState);
         switch(stateType){
             case ONE:   applicationState = new CatalogState(); break;
             case TWO:   applicationState = new ManagingCabinetState(); break;

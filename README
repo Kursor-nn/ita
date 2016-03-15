@@ -1,0 +1,25 @@
+For build:
+- mvn package
+
+For run:
+- cd  target/
+
+Run server:
+- java -jar ita-server--jar-with-dependencies.jar
+
+Run client: 
+- java -jar ita-server--jar-with-dependencies.jar -t client
+
+Parameters:
+-p - Application Port. default : 4555
+-h - Application Host. default : localhost
+-t - Application mode : server/client. default : server
+
+Database:
+
+-N      - database name. default value : ita")
+-H      - database host-name. default value : localhost")
+--port  - database host-name. default value : 5442
+-U      - database host-user. default value : postgres
+-P      - usage="database password. default value : 123123")
+

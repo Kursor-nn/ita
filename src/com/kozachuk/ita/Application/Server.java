@@ -27,7 +27,7 @@ public class Server extends Application {
 
             while(listeningSocket){
                 Socket clientSocket = serverSocket.accept();
-                ItaServer server = new ItaServer(clientSocket);
+                ItaServer server = new ItaServer(clientSocket, config);
                 server.start();
             }
 

@@ -5,7 +5,7 @@ import org.hibernate.Session;
 /**
  * Created by alexanderkozachuk on 12.03.16.
  */
-public class RepositoryImpl<T> implements IRepositry<T>{
+public class RepositoryImpl<T> implements IRepository<T> {
 
     protected Session session;
 

@@ -29,7 +29,7 @@ public enum StateType {
 
     private String code;
 
-    private StateType(String code) {
+    StateType(String code) {
         this.code = code;
     }
 

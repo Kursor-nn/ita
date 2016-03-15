@@ -19,7 +19,6 @@ public class UserRepository extends RepositoryImpl{
 
     public void attach(User user, Note note){
         session.beginTransaction();
-        Set<Note> attachedNotes = user.getNotes();
         user.getNotes().add(note);
         session.getTransaction().commit();
     }

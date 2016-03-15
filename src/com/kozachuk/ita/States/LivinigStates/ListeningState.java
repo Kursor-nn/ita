@@ -20,7 +20,6 @@ import java.util.List;
  */
 public class ListeningState extends ApplicationState {
     Note currentNote = null;
-    private int contentIndex = 0;
     Iterator<Note> notes = null;
     User user = null;
     private String stateMessage = "\nPlease, choose action:\n 1 - next content;\n 2 - add content," +

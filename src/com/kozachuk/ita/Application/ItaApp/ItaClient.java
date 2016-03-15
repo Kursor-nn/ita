@@ -25,7 +25,7 @@ public class ItaClient extends Thread{
     MessageTransfer mtransfer;
 
     public ItaClient(Configuration config) {
-        super("ItaClient");
+        super();
         this.config = config;
     }
 
@@ -48,8 +48,8 @@ public class ItaClient extends Thread{
 
     public void run(){
         System.out.println("Client is running");
-        Socket clientSocket = null;
-        Scanner scaner;
+        Socket clientSocket;
+        Scanner scanner;
         Request request;
         DataOutputStream outStream;
         BufferedReader inStream;
@@ -57,7 +57,7 @@ public class ItaClient extends Thread{
         try {
             mtransfer = new MessageTransfer(Request.class);
             mtransfer.init();
-            scaner = new Scanner(System.in);
+            scanner = new Scanner(System.in);
             request = new Request();
             clientSocket = new Socket(this.config.getHost(), config.getPort());
             outStream = new DataOutputStream(clientSocket.getOutputStream());
@@ -71,8 +71,8 @@ public class ItaClient extends Thread{
                     respond.print();
 
                     System.out.print("Enter code: ");
-                    if(scaner.hasNext()){
-                        String i = scaner.next();
+                    if(scanner.hasNext()){
+                        String i = scanner.next();
                         if (i.equals("q")) isRunning = false;
                         request.setStateType(StateType.get(i));
                         request.setUserInput(new String(i));

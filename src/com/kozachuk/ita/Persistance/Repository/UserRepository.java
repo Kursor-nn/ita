@@ -2,7 +2,9 @@ package com.kozachuk.ita.Persistance.Repository;
 
 import com.kozachuk.ita.Persistance.Model.Note;
 import com.kozachuk.ita.Persistance.Model.User;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -27,4 +29,11 @@ public class UserRepository extends RepositoryImpl{
         user.getNotes().remove(note);
         this.session.getTransaction().commit();
     }
+
+    public User findByMsisdn(Long value) {
+        Criteria criteria = session.createCriteria(User.class);
+        User entity = (User)criteria.add(Restrictions.eq("msisdn", value)).uniqueResult();
+        return entity;
+    }
+
 }

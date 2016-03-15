@@ -23,6 +23,7 @@ import java.net.Socket;
 public class ItaServer extends Thread{
     private Socket socket = null;
     private boolean runServer = true;
+    private boolean userProvideMsisdn = true;
     private MessageTransfer messageTransfer;
     private MessageTransfer messageTransferRespond;
     private Session session = null;
@@ -34,6 +35,7 @@ public class ItaServer extends Thread{
     private UserRepository repoUser ;
     private User user;
 
+
     public ItaServer(Socket socket) {
         super("ItaServer");
         this.socket = socket;
@@ -41,6 +43,33 @@ public class ItaServer extends Thread{
 
     public void run(){
         init();
+
+        try {
+            Respond respond = new Respond("Please, enter your MSISDN");
+            respond.setContent("MSISDN is your number");
+            messageTransferRespond.sendXml(respond, out);
+
+            while(userProvideMsisdn) {
+                if (in.ready()) {
+                    requestFromClient = getRequest(in);
+                    Long userMsisdn = Long.valueOf(requestFromClient.getUserInput());
+                    user = (User)repoUser.findByMsisdn(userMsisdn);
+
+                    if(user != null){
+                        userSession = new UserSession(user);
+                        messageTransferRespond.sendXml(applicationState.handle(), out);
+                        userProvideMsisdn = false;
+                    } else {
+                        messageTransferRespond.sendXml(respond, out);
+                    }
+
+                }
+            }
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         while(runServer) {
             try{
@@ -95,19 +124,15 @@ public class ItaServer extends Thread{
 
             messageTransferRespond = new MessageTransfer(Respond.class);
             messageTransferRespond.init();
-            messageTransferRespond.sendXml(applicationState.handle(), out);
             session = HibernatePersistance.getSessionFactory().openSession();
 
             repoUser = new UserRepository(session);
-            user = (User)repoUser.find(User.class, 16);
-            userSession = new UserSession(user);
+
 
             applicationState = new MainState();
         } catch (IOException e){
             System.out.println(e);
             runServer = false;
-        } catch (JAXBException e) {
-            e.printStackTrace();
         }
     }
 }

@@ -13,6 +13,7 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
 
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by alexanderkozachuk on 13.03.16.
@@ -45,19 +46,13 @@ public class ListeningState extends ApplicationState {
         respond.setContent("You are listening the following content : ");
         if(notes == null){
             respond.setContent("Please, press '1' for starting");
+            //Fuck =(
+            String sql = "SELECT * FROM content " +
+                    "join content_categories on content_categories.note_id = content.id " +
+                    "join categories on content_categories.categories_id = categories.id " +
+                    "where categories.publicid = '" + getUserSession().getUserInput() + "'";
 
-            Criteria root = session.createCriteria(Note.class)
-                    .add(Restrictions.isEmpty("users"));
-                root.createCriteria("categories", "category")
-                    .add(Restrictions.eq("category.publicId", getUserSession().getUserInput()));
-                root.createCriteria("users", "user", JoinType.LEFT_OUTER_JOIN)
-                    .add(Restrictions.or(
-                            Restrictions.ne("user.id", getUserSession().getUser().getId()),
-                            Restrictions.isNull("user.id")));
-
-
-            notes = root.list().iterator();
-
+            notes = session.createSQLQuery(sql).addEntity(Note.class).list().iterator();
 
         } else {
             respond.setContent("You have added all content.");
